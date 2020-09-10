@@ -5,6 +5,7 @@ import loginStyle from '../styles/LoginStyle';
 import Feather from 'react-native-vector-icons/Feather';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import * as Animatable from 'react-native-animatable';
+import { connect } from 'react-redux';
 
 const SignInScreen = ({ navigation }) => {
 
@@ -64,7 +65,7 @@ const SignInScreen = ({ navigation }) => {
                     <TextInput
                         placeholder="Enter Email"
                         style={loginStyle.textInput}
-                        onChangeText={(val) => onChangeInput(val)}
+                        onChangeText={(val) => this.props.onChangeInput(val)}
                     >
                     </TextInput>
                     {data.isTextChange ? <Feather
@@ -84,7 +85,7 @@ const SignInScreen = ({ navigation }) => {
                     ></Feather>
                     <TextInput
                         placeholder="Your Password"
-                        onChangeText={(val) => onEnterPassword(val)}
+                        onChangeText={(val) => this.props.onEnterPassword(val)}
                         secureTextEntry={data.secureTextChange}
                         style={loginStyle.textInput}
                     >
@@ -119,4 +120,13 @@ const SignInScreen = ({ navigation }) => {
     );
 }
 
-export default SignInScreen;
+const mapStatesToProps = (state) => state;
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onChangeInput: (val) => dispatch({ type: 'USER_NAME', payload: val }),
+        onEnterPassword: (pass) => dispatch({ type: 'PASS', payload: pass })
+    }
+}
+
+export default connect(mapStatesToProps, mapDispatchToProps)(SignInScreen);
